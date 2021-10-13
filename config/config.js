@@ -1,0 +1,24 @@
+const promise = require('bluebird');
+const options = {
+    promiseLib: promise,
+    query: (e) => {
+    }
+}
+
+const pgp = require('pg-promise')(options);
+const types = pgp.pg.types;
+types.setTypeParser(1114, function (val) {
+    return val;
+})
+
+const databaseConfig = {
+    'host': '127.0.0.1',
+    'port': 5432,
+    'database': 'delivery_db',
+    'user': 'postgres',
+    'password': 'root',
+}
+
+const db = pgp(databaseConfig);
+
+module.exports = db;
