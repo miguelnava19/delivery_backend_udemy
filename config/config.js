@@ -1,23 +1,32 @@
-const promise = require('bluebird');
-const options = {
-    promiseLib: promise,
-    query: (e) => {
-    }
-}
+const promise = require("bluebird");
+const dotenv = require('dotenv');
+dotenv.config();
 
-const pgp = require('pg-promise')(options);
+const options = {
+  promiseLib: promise,
+  query: (e) => {},
+};
+
+const pgp = require("pg-promise")(options);
 const types = pgp.pg.types;
+
 types.setTypeParser(1114, function (val) {
-    return val;
-})
+  return val;
+});
 
 const databaseConfig = {
-    'host': '127.0.0.1',
-    'port': 5432,
-    'database': 'delivery_db',
-    'user': 'postgres',
-    'password': 'root',
-}
+  host: process.env.HOST,
+  port: process.env.PORTDB,
+  database: process.env.DATABASE,
+  user: process.env.USER,
+  password: process.env.PASSWORD,
+  dialect: "postgresql",
+  ssl: {
+    sslmode: "require",
+    rejectUnauthorized: false,
+  },
+  logging: false,
+};
 
 const db = pgp(databaseConfig);
 

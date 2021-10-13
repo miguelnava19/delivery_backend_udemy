@@ -1,8 +1,10 @@
 # Default ignored files
 /shelf/
 /workspace.xml
+/.env
 # Datasource local storage ignored files
 /../../../../../../:\Users\CharlieMaddox\IdeaProjects\backend_delivery\.idea/dataSources/
 /dataSources.local.xml
 # Editor-based HTTP Client requests
 /httpRequests/
+node_modules/

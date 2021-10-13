@@ -1,42 +1,25 @@
-const express = require('express');
-const bodyParser = require('body-parser')
-const app = express();
-const http = require('http');
-const server = http.createServer();
-const logger = require('morgan');
-const cors = require('cors');
-var code = 200;
-/**
- * Rutas
- */
-const users = require('./routes/userRoutes');
+const express = require("express");
+const logger = require("morgan");
+const cors = require("cors");
 
 const port = process.env.PORT || 3000;
 
-app.use(logger('dev'));
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
+// Crear el servidor de express
+const app = express();
+
+app.use(logger("dev"));
+
+// Lectura y parseo del body
+app.use(express.json());
+
+// CORS
 app.use(cors());
-app.disable('x-powered-by');
-app.set('port', port);
+app.disable("x-powered-by");
 
-//LLamando a las rutas
-users(app);
+//Rutas
+app.use("/api/users", require("./routes/userRoutes"));
 
-
+// Escuchar peticiones
 app.listen(port, () => {
-    console.info("Application nodejs ", process.pid, " iniciada... port ", port);
+  console.info("Application nodejs ", process.pid, " iniciada... port ", port);
 });
-
-
-app.use(( req, res, next) => {
-    console.log('req --> ', req)
-    console.log('res --> ', res)
-    res.status(code);
-    res.send('server answer!');
-});
-
-module.exports = {
-    app: app,
-    server: server
-}
