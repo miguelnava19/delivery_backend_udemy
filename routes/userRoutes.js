@@ -15,7 +15,7 @@ router.post(
   "/create",
   [
     // middlewares
-    check("nombre", "El nombre es obligatorio").not().isEmpty(),
+    check("name", "El nombre es obligatorio").not().isEmpty(),
     check("email", "El email es obligatorio").isEmail(),
     check("password", "El password debe de ser de 6 caracteres").isLength({
       min: 6,

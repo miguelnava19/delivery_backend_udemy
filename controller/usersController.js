@@ -68,13 +68,14 @@ const login = async (req, res = response, next) => {
 
     const data = {
       id: user.id,
-      nombre: user.nombre,
-      apellido: user.apellido,
+      name: user.nombre,
+      lastname: user.apellido,
       session_token: `${token}`,
     };
 
     return res.status(constant.CODE_SUCCESS).json({
       success: true,
+      message: "Login success",
       data,
     });
   } catch (e) {

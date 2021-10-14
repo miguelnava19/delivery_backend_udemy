@@ -9,14 +9,14 @@ User.getAll = () => {
 };
 
 User.findById = (id, callback) => {
-  const sql = `select u.id, u.email, u.nombre, u.apellido, u.image, u.telefono, u.password, u.session_tooken from users u where u.id = $1`;
+  const sql = `select u.id, u.email, u.name, u.lastname, u.image, u.phone, u.password, u.session_tooken from users u where u.id = $1`;
   return db.oneOrNone(sql, id).then((user) => {
     callback(null, user);
   });
 };
 
 User.findByEmail = (email) => {
-  const sql = `select u.id, u.email, u.nombre, u.apellido, u.image, u.telefono, u.password, u.session_tooken from users u where u.email = $1`;
+  const sql = `select u.id, u.email, u.name, u.lastname, u.image, u.phone, u.password, u.session_tooken from users u where u.email = $1`;
   return db.oneOrNone(sql, email);
 };
 
@@ -26,15 +26,15 @@ User.create = (user) => {
   user.password = bcrypt.hashSync(user.password, salt);
 
   const sql = `Insert into users(
-           email,password,nombre,apellido,telefono,image,create_at,updated_at)
+           email,password,name,lastname,phone,image,create_at,updated_at)
            Values($1,$2,$3,$4,$5,$6,$7,$8) 
            returning id`;
   return db.oneOrNone(sql, [
     user.email,
     user.password,
-    user.nombre,
-    user.apellido,
-    user.telefono,
+    user.name,
+    user.lastname,
+    user.phone,
     user.image,
     new Date(),
     new Date(),
