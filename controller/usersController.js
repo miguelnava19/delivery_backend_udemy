@@ -1,15 +1,15 @@
 const { response } = require("express");
-const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 //JS
 const User = require("../model/user");
+const Rol = require("../model/rol");
 const constant = require("../util/constants");
 const { generarJWT } = require("../helpers/jwt");
 
 const getAll = async (req, res, next) => {
   try {
     const data = await User.getAll();
-    
+
     return res.status(constant.CODE_SUCCESS).json(data);
   } catch (error) {
     console.error(`error getAll usuarios --> ${error}`);
@@ -25,9 +25,13 @@ const create = async (req, res, next) => {
   try {
     const user = req.body;
     const data = await User.create(user);
+
+    //Asignar el rol al user por defecto es ROL CLIENTE
+    await Rol.create(data.id, constant.CLIENTE_ID);
+
     res.status(constant.CODE_CREATED).json({
       success: true,
-      message: `Usuario registrado correctamente`,
+      message: `El usuario se registrado correctamente, ahora inicie sesión`,
       data: data.id,
     });
   } catch (e) {
@@ -70,7 +74,8 @@ const login = async (req, res = response, next) => {
       id: user.id,
       name: user.nombre,
       lastname: user.apellido,
-      session_token: `${token}`,
+      session_token: `JWT ${token}`,
+      roles: user.roles,
     };
 
     return res.status(constant.CODE_SUCCESS).json({
