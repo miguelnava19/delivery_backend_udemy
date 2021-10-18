@@ -54,7 +54,7 @@ const login = async (req, res = response, next) => {
     if (!user) {
       return res.status(constant.CODE_BAD_REQUEST).json({
         success: false,
-        message: "El correo o contraseña incorrecto.",
+        message: "El correo o la contraseña son incorrectos.",
       });
     }
 
@@ -64,7 +64,7 @@ const login = async (req, res = response, next) => {
     if (!validPassword) {
       return res.status(constant.CODE_BAD_REQUEST).json({
         success: false,
-        message: "El correo o contraseña incorrecto.",
+        message: "El correo o la contraseña son incorrectos.",
       });
     }
     // Generar JWT
@@ -72,10 +72,13 @@ const login = async (req, res = response, next) => {
 
     const data = {
       id: user.id,
-      name: user.nombre,
-      lastname: user.apellido,
+      name: user.name,
+      lastname: user.lastname,
+      email: user.email,
+      phone: user.phone,
       session_token: `JWT ${token}`,
-      roles: user.roles,
+      image:"user.image"
+      //roles: user.roles,
     };
 
     return res.status(constant.CODE_SUCCESS).json({
